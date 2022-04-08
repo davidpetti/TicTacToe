@@ -1,4 +1,4 @@
-from players import HumanPlayer
+from players import HumanPlayer, ComputerPlayer
 
 class TicTacToe:
     def __init__(self, player1, player2):
@@ -60,18 +60,20 @@ class TicTacToe:
             return col
         elif dia != -1:
             return dia
+        else:
+            return -1
 
     def check_row(self):
         for row in self.board:
             if len(set(row)) == 1:
-                return row[0]
+                return row[0] if row[0] != " " else -1
         return -1
 
     def check_col(self):
         board = [[self.board[i][p] for i in range(3)] for p in range(3)]
         for col in board:
             if len(set(col)) == 1:
-                return col[0]
+                return col[0] if col[0] != " " else -1
         return -1
 
     def check_dia(self):
@@ -81,23 +83,39 @@ class TicTacToe:
         ]
         for diagonals in board:
             if len(set(diagonals)) == 1:
-                return diagonals[0]
+                return diagonals[0] if diagonals[0] != " " else -1
         return -1
 
     def play(self):
+        player = self.o_player
         while self.check_empty != 0:
-            move = self.o_player.get_move(self)
-            self.board[move // 3][move % 3] = self.o_player.letter
+            move = player.get_move(self)
+            self.board[move // 3][move % 3] = player.letter
             self.print_board()
+            print("")
+            if self.check_winner() != -1:
+                print(f"{self.check_winner()} Won!")
+                return
+            if player == self.o_player:
+                player = self.x_player
+            else:
+                player = self.o_player
             
 
 def main():
-    player1 = HumanPlayer("O")
-    player2 = HumanPlayer("X")
-    t = TicTacToe(player1, player2)
-    # print(t.check_available())
-    print(t.check_available())
-    t.play()
+    if int(input("One-Player or Two-Players(Enter 1 or 2)")) == 1:
+        print("")
+        player1 = HumanPlayer("O")
+        player2 = ComputerPlayer("X")
+        t = TicTacToe(player1, player2)
+        t.play()
+    else:
+        print("")
+        player1 = HumanPlayer("O")
+        player2 = HumanPlayer("X")
+        t = TicTacToe(player1, player2)
+        t.play()
+
 
 if __name__ == "__main__":
     main()
