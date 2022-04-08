@@ -1,14 +1,16 @@
 from players import HumanPlayer
 
-
 class TicTacToe:
     def __init__(self, player1, player2):
-        board = [["O", "O", "O"], ["X", "X", "O"], ["O", "X", "X"]]
-        self.board = board
-        self.numboard = [[i for i in range(c * 3, c * 3 + 3)]
-                         for c in range(3)]
+        board = [
+        ["O", "O", "X"], 
+        ["X", "O", "O"], 
+        ["X", "X", "X"]
+            ]
         self.o_player = player1
         self.x_player = player2
+        self.board = self.make_board()
+        self.numboard = [[i for i in range(c*3, c*3+3)] for c in range(3)]
 
     def make_board(self):
         return [[" " for i in range(3)] for i in range(3)]
@@ -22,6 +24,22 @@ class TicTacToe:
             for n, i in enumerate(row):
                 row[n] = str(i)
             print(" | ".join(row))
+
+    def check_empty(self):
+        total = 0
+        for row in self.board:
+            for i in range(3):
+                if row[i] == " ":
+                    total += 1
+        return total
+
+    def check_available(self):
+        available = []
+        for row in self.numboard:
+            for i in row:
+                if i != " ":
+                    available.append(i)
+        return available
 
     def check_winner(self):
         row = self.check_row()
@@ -58,19 +76,18 @@ class TicTacToe:
         return -1
 
     def play(self):
-        # self.o_player.get_move(self)
-        pass
+        while self.check_empty != 0:
+            move = self.o_player.get_move(self)
+            self.board[move // 3][move % 3] = self.o_player.letter
+            self.print_board()
 
+def main():
+    player1 = HumanPlayer("O")
+    player2 = HumanPlayer("X")
+    t = TicTacToe(player1, player2)
+    # print(t.check_available())
+    
+    t.play()
 
-# def main():
-# board = [
-#   ["O", "O", "X"],
-#   ["X", "O", "O"],
-#   ["X", "X", "X"]
-#         ]
-player1 = HumanPlayer("O")
-player2 = HumanPlayer("X")
-t = TicTacToe(player1, player2)
-print(t.check_winner())
-# if __name__ == "__main__":
-#   main()
+if __name__ == "__main__":
+    main()
