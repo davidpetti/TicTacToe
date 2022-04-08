@@ -76,6 +76,3 @@ t = TicTacToe(player1, player2)
 print(t.check_winner())
 # if __name__ == "__main__":
 #   main()
-
-
-# Comment
