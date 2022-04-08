@@ -20,10 +20,19 @@ class TicTacToe:
             print(" | ".join(row))
 
     def print_numboard(self):
-        for row in self.numboard:
-            for n, i in enumerate(row):
-                row[n] = str(i)
-            print(" | ".join(row))
+        brd = self.numboard[:]
+        print_list = []
+        for row in brd:
+            for num in row:
+                num = str(num)
+                print_list.append(num)
+            print(" | ".join(print_list))
+            print_list = []
+        # brd = self.numboard.copy()
+        # for row in brd:
+        #     for n, i in enumerate(row):
+        #         row[n] = str(i)
+        #     print(" | ".join(row))
 
     def check_empty(self):
         total = 0
@@ -80,13 +89,14 @@ class TicTacToe:
             move = self.o_player.get_move(self)
             self.board[move // 3][move % 3] = self.o_player.letter
             self.print_board()
+            
 
 def main():
     player1 = HumanPlayer("O")
     player2 = HumanPlayer("X")
     t = TicTacToe(player1, player2)
     # print(t.check_available())
-    
+    print(t.check_available())
     t.play()
 
 if __name__ == "__main__":
